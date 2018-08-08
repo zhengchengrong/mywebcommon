@@ -53,6 +53,7 @@ public class MybatisGeneratorUtil {
 
 		String os = System.getProperty("os.name");
 		if (os.toLowerCase().startsWith("win")) {
+			String path = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath();
 			generatorConfig_vm = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath().replaceFirst("/", "");
 			service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath().replaceFirst("/", "");
 			serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "");
@@ -64,7 +65,7 @@ public class MybatisGeneratorUtil {
 			serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath();
 		}
 
-		String targetProject = module + "/" + module + "-dao";
+		String targetProject = module + "/" + module + "dao";
 		String basePath = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes/", "").replace(targetProject, "").replaceFirst("/", "");
 		String generatorConfigXml = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes/", "") + "/src/main/resources/generatorConfig.xml";
 		targetProject = basePath + targetProject;
@@ -88,7 +89,7 @@ public class MybatisGeneratorUtil {
 			}
 			jdbcUtil.release();
 
-			String targetProjectSqlMap = basePath + module + "/" + module + "-rpc-service";
+			String targetProjectSqlMap = basePath + module + "/" + module + "rpcservice";
 			context.put("tables", tables);
 			context.put("generator_javaModelGenerator_targetPackage", packageName + ".dao.model");
 			context.put("generator_sqlMapGenerator_targetPackage", packageName + ".dao.mapper");
@@ -122,8 +123,8 @@ public class MybatisGeneratorUtil {
 
 		System.out.println("========== 开始生成Service ==========");
 		String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
-		String servicePath = basePath + module + "/" + module + "-rpc-api" + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/api";
-		String serviceImplPath = basePath + module + "/" + module + "-rpc-service" + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/service/impl";
+		String servicePath = basePath + module + "/" + module + "rpcapi" + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/api";
+		String serviceImplPath = basePath + module + "/" + module + "rpcservice" + "/src/main/java/" + packageName.replaceAll("\\.", "/") + "/rpc/service/impl";
 		for (int i = 0; i < tables.size(); i++) {
 			String model = lineToHump(ObjectUtils.toString(tables.get(i).get("table_name")));
 			String service = servicePath + "/" + model + "Service.java";
